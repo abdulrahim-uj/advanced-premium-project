@@ -28,5 +28,13 @@ export class PlacesService {
     return [...this._places];
   }
 
+  getplaceDetails(placeViewId: string) {
+    return {
+      ...this._places.find(dataId => {
+        return dataId.id === placeViewId
+      })
+    };
+  }
+
   constructor() { }
 }

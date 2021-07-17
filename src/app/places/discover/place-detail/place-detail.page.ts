@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { Place } from '../../place.model';
+import { PlacesService } from '../../places.service';
 
 @Component({
   selector: 'app-place-detail',
@@ -9,9 +11,46 @@ import { NavController } from '@ionic/angular';
 })
 export class PlaceDetailPage implements OnInit {
 
-  constructor(private router: Router, private navCtrl: NavController) { }
+  loadedData: Place;
+
+  constructor(
+    private router: Router,
+    private navCtrl: NavController,
+    private activatedRoute: ActivatedRoute,
+    private placesService: PlacesService
+    ) { }
 
   ngOnInit() {
+    console.log("@Discover ngOnInit");
+    this.activatedRoute.paramMap.subscribe(paramMapObj => {
+      if(!paramMapObj.has('placeId')) {
+        //redirect the page, because check the id is valid or not
+        return
+      }
+      const placeID = paramMapObj.get('placeId');
+      this.loadedData = this.placesService.getplaceDetails(placeID);
+      console.log("Data: : : ", this.loadedData);
+    })
+  }
+
+  ionViewWillEnter() {
+    console.log("@Discover ionViewWillEnter");
+  }
+
+  ionViewDidEnter() {
+    console.log("@Discover ionViewDidEnter");
+  }
+
+  ionViewWillLeave() {
+    console.log("@Discover ionViewWillLeave");
+  }
+
+  ionViewDidLeave() {
+    console.log("@Discover ionViewDidLeave");
+  }
+
+  ngOnDestroy() {
+    console.log("@Discover ngOnDestroy");
   }
 
   onBookPlace() {
